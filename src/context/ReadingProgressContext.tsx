@@ -55,7 +55,7 @@ export const ReadingProgressProvider = ({ children }: ReadingProgressProviderPro
             setCompletedNovels(JSON.parse(savedCompleted));
           }
         }
-      } catch (error) {
+      } catch (_error) {
         // Fallback to localStorage
         const savedOngoing = localStorage.getItem('ongoingNovels');
         const savedCompleted = localStorage.getItem('completedNovels');
@@ -114,7 +114,7 @@ export const ReadingProgressProvider = ({ children }: ReadingProgressProviderPro
       if (isUserLoggedIn()) {
         try {
           await readingProgressService.startReading(novelId, novelTitle, coverImage, author);
-        } catch (error) {
+        } catch (_error) {
           // Silent fail - local state already updated
         }
       }

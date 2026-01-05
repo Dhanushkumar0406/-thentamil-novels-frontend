@@ -5,6 +5,9 @@ import UserLogin from '../../components/common/UserLogin/UserLogin';
 import styles from './NovelsPage.module.scss';
 import NovelsCard from '../../components/NovelsCard/NovelsCard';
 
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
+
 const NovelsPage = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [season, setSeason] = useState('winter');
@@ -85,6 +88,10 @@ const NovelsPage = () => {
       novelUrl: '/novel/nilavu-raagam',
     },
   ];
+
+
+
+
 
   // Popular Novels Data
   const ongoingNovels = [

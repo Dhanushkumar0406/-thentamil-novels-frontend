@@ -3,7 +3,7 @@ import { Language } from '../types';
 
 interface LanguageContextType {
   language: Language;
-  changeLanguage: (lang: Language) => void;
+  changeLanguage: (_lang: Language) => void;
   isTamil: boolean;
   isEnglish: boolean;
 }

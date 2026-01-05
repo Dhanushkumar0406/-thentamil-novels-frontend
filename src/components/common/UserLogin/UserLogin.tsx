@@ -9,7 +9,7 @@ interface UserLoginProps {
 }
 
 const UserLogin: React.FC<UserLoginProps> = ({ isOpen, onClose }) => {
-  const { login, signup, authenticate } = useAuth(); // Added authenticate
+  const { authenticate } = useAuth();
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
@@ -21,7 +21,6 @@ const UserLogin: React.FC<UserLoginProps> = ({ isOpen, onClose }) => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [authAction, setAuthAction] = useState<'login' | 'signup' | null>(null);
 
   if (!isOpen) return null;
 
@@ -29,7 +28,6 @@ const UserLogin: React.FC<UserLoginProps> = ({ isOpen, onClose }) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-    setAuthAction(null);
 
     try {
       if (isLogin) {
@@ -41,7 +39,6 @@ const UserLogin: React.FC<UserLoginProps> = ({ isOpen, onClose }) => {
         });
 
         if (result.success) {
-          setAuthAction(result.action || 'login');
           onClose();
           // Reset form
           setFormData({ username: '', email: '', password: '', confirmPassword: '', name: '' });
@@ -75,7 +72,6 @@ const UserLogin: React.FC<UserLoginProps> = ({ isOpen, onClose }) => {
         });
 
         if (result.success) {
-          setAuthAction(result.action || 'signup');
           onClose();
           // Reset form
           setFormData({ username: '', email: '', password: '', confirmPassword: '', name: '' });
@@ -83,7 +79,7 @@ const UserLogin: React.FC<UserLoginProps> = ({ isOpen, onClose }) => {
           setError(result.error || 'Authentication failed');
         }
       }
-    } catch (err) {
+    } catch (_err) {
       setError('An error occurred. Please try again.');
     } finally {
       setLoading(false);

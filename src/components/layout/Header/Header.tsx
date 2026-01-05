@@ -22,7 +22,6 @@ const Header: React.FC<HeaderProps> = ({ onLoginClick }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const languageDropdownRef = useRef<HTMLDivElement>(null);
   const userDropdownRef = useRef<HTMLDivElement>(null);
-  const [showLanguage, setShowLanguage] = useState(false);
 
   const _t = translations[language];
 

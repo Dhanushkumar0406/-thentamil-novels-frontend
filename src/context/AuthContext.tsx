@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { authService } from '../services/API/authService';
-import { AuthContextType, User } from '../types';
+import { AuthContextType, User, ApiResponse } from '../types';
 
 // Import MOCK_USERS for authentication logic
 const MOCK_USERS = [
@@ -9,22 +9,22 @@ const MOCK_USERS = [
     email: 'admin@example.com',
     password: 'admin123',
     role: 'ADMIN',
-    name: 'Admin User'
+    name: 'Admin User',
   },
   {
     id: 2,
     email: 'editor@example.com',
     password: 'editor123',
     role: 'EDITOR',
-    name: 'Editor User'
+    name: 'Editor User',
   },
   {
     id: 3,
     email: 'user@example.com',
     password: 'user123',
     role: 'USER',
-    name: 'Regular User'
-  }
+    name: 'Regular User',
+  },
 ];
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -97,7 +97,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         const errorMsg = 'error' in result ? result.error : 'Login failed';
         return { success: false, error: errorMsg || 'Login failed' };
       }
-    } catch (error) {
+    } catch (_error) {
       return { success: false, error: 'Login failed' };
     }
   };
@@ -115,20 +115,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         const errorMsg = 'error' in result ? result.error : 'Signup failed';
         return { success: false, error: errorMsg || 'Signup failed' };
       }
-    } catch (error) {
+    } catch (_error) {
       return { success: false, error: 'Signup failed' };
     }
   };
 
   // Unified Authentication function (Login/Signup)
-  const authenticate = async (credentials: any): Promise<ApiResponse & { action?: 'login' | 'signup' }> => {
+  const authenticate = async (
+    credentials: any
+  ): Promise<ApiResponse & { action?: 'login' | 'signup' }> => {
     try {
       // For hardcoded auth, determine action based on whether email exists
-      const existingUser = MOCK_USERS.find(u => u.email === credentials.email);
+      const existingUser = MOCK_USERS.find((u) => u.email === credentials.email);
 
       if (existingUser) {
         // Login
-        const result = await authService.login({ email: credentials.email, password: credentials.password });
+        const result = await authService.login({
+          email: credentials.email,
+          password: credentials.password,
+        });
         if (result.success && result.data) {
           setUser(result.data.user);
           setIsAuthenticated(true);
@@ -140,7 +145,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           email: credentials.email,
           password: credentials.password,
           username: credentials.username || credentials.email.split('@')[0],
-          name: credentials.displayName || credentials.username
+          name: credentials.displayName || credentials.username,
         });
         if (result.success && result.data) {
           setUser(result.data.user);
@@ -150,7 +155,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
 
       return { success: false, error: 'Authentication failed' };
-    } catch (error) {
+    } catch (_error) {
       return { success: false, error: 'Authentication failed' };
     }
   };

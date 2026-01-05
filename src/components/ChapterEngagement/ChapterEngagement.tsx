@@ -9,7 +9,7 @@ interface ChapterEngagementProps {
   chapterTitle: string;
 }
 
-const ChapterEngagement: React.FC<ChapterEngagementProps> = ({ novelId, chapterId, chapterTitle }) => {
+const ChapterEngagement: React.FC<ChapterEngagementProps> = ({ novelId, chapterId }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [likesCount, setLikesCount] = useState<number>(0);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -19,6 +19,7 @@ const ChapterEngagement: React.FC<ChapterEngagementProps> = ({ novelId, chapterI
 
   useEffect(() => {
     loadEngagementData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [novelId, chapterId]);
 
   const loadEngagementData = async () => {

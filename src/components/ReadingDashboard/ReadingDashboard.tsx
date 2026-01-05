@@ -57,7 +57,7 @@ const ReadingDashboard: React.FC = () => {
           completedNovels: completed.length
         });
       }
-    } catch (error) {
+    } catch (_error) {
       // Silent fail - show empty dashboard
     } finally {
       setLoading(false);
